@@ -6,6 +6,8 @@ use App\Models\Invoice;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\InvoiceResource;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 class InvoiceController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class InvoiceController extends Controller
     public function index()
     {
   $invoices = Invoice::all();
-  return $invoices;
+  return (InvoiceResource::collection($invoices));
     }
 
     /**
@@ -30,7 +32,25 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'quantity' => 'required',
+            
+            
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $invoice =Invoice::create([
+            'user_id' => Auth::user()->id ,
+            'product_id' => $request->product_id,
+            'quantity' => $request->quantity
+           
+        ]);
+
+        return response()->json(["Uspesno dodana narudzba",new InvoiceResource($invoice)]);
     }
 
     /**
@@ -54,7 +74,24 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'quantity' => 'required',
+            
+            
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $invoice->product_id = $request->product_id;
+        $invoice->quantity = $request->quantity;
+        
+       
+
+        $invoice->save();
+        return response()->json(["Uspesno izmenjena narudzba!",  new InvoiceResource($invoice)]);
     }
 
     /**
@@ -62,6 +99,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $invoice->delete();
+        return response()->json("Narudzba je izbrisana!");
     }
 }

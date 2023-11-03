@@ -21,7 +21,8 @@ return [
     'first_name'=>$this->resource->first_name,
     'last_name'=>$this->resource->last_name,
     'email'=>$this->resource->email,
-    'type'=>$this->resource->type
+    'type'=>$this->resource->type,
+    'address'=>$this->resource->address
 
 
 ];

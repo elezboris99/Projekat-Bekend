@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
    $users = User::all();
-   return $users;
+   return (UserResource::collection($users));
     }
 
     /**
@@ -54,7 +56,18 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validator = Validator::make($request->all(), [
+
+            'address' => 'required|string'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+            $user->address= $request->address;
+            $user->save();
+            return response()->json(["Uspesno izmenjen korisnik!",  new UserResource($user)]);
+
     }
 
     /**
@@ -62,6 +75,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json("Korisnik je izbrisan!");
     }
 }
