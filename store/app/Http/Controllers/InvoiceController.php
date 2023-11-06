@@ -75,6 +75,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $validator = Validator::make($request->all(), [
+            'user_id'=>'required',
             'product_id' => 'required',
             'quantity' => 'required',
             
@@ -84,7 +85,7 @@ class InvoiceController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-
+        $invoice->user_id=$request->user_id;
         $invoice->product_id = $request->product_id;
         $invoice->quantity = $request->quantity;
         

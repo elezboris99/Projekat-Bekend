@@ -36,7 +36,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:40',
             'description' => 'required|string|max:200',
             'price' => 'required',
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'photo'=> 'required'
         ]);
 
         if ($validator->fails()) {
@@ -47,7 +48,10 @@ class ProductController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'quantity' => $request->quantity
+            'quantity' => $request->quantity,
+            'photo'=> $request->photo
+            
+
         ]);
 
         return response()->json(["Uspesno dodan proizvod",new ProductResource($product)]);
@@ -80,7 +84,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:40',
             'description' => 'required|string|max:200',
             'price' => 'required',
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'photo'=> 'required'
         ]);
 
         if ($validator->fails()) {
@@ -91,7 +96,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
-
+        $product->photo = $request->photo;
         $product->save();
         return response()->json(["Uspesno izmenjen proizvod!",  new ProductResource($product)]);
 

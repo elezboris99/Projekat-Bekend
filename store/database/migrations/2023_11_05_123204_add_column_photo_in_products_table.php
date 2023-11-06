@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('products', function (Blueprint $table) {
+            $table->longText("photo")->default("data:image/png;base64,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");
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('products', function (Blueprint $table) {
+            $table->removeColumn("photo");
+        });
+    }
+};
