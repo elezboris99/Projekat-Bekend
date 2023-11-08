@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\API\AuthController;
-
+use App\Http\Controllers\UserInvoiceController;
 
 //Route::get('/products', [ProductController::class, 'index' ]);
 //Route::get('/products/{id}', [ProductController::class, 'show' ]);
@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/invoices', InvoiceController::class);
     
     Route::resource('users', UserController::class);
-
+    Route::get('/users/{id}/invoices', [UserInvoiceController::class, 'index'])->name('users.invoices.index');
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 

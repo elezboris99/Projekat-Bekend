@@ -20,7 +20,8 @@ return[
 'id' => $this->resource->id,
 'user' => new UserResource($this->resource->user),
 'product' =>new ProductResource($this->resource->product),
-'quantity'=>$this->resource->quantity
+'quantity'=>$this->resource->quantity,
+'created_at'=>$this->resource->created_at
 ];
     }
 }
